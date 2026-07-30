@@ -1,5 +1,3 @@
-package Hashing;
-
 import java.util.LinkedHashMap;
 import java.util.Set;
 

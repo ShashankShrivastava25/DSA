@@ -1,5 +1,3 @@
-package Hashing;
-
 import java.util.TreeMap;
 import java.util.Set;
 

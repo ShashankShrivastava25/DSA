@@ -1,5 +1,3 @@
-package Hashing;
-
 import java.util.HashMap;
 
 public class MajorityElement { // TC O(n)
