@@ -35,11 +35,57 @@ public class ArticulationPoint {
 
     }
 
+    public static void dfs(ArrayList<Edge> graph[], int curr, int par, int dt[], int low[], boolean vis[], int time,
+            boolean ap[]) {
+        vis[curr] = true;
+        dt[curr] = low[curr] = ++time;
+        int children = 0;
+        for (int i = 0; i < graph[curr].size(); i++) {
+            Edge e = graph[curr].get(i);
+            int neigh = e.dest;
+            if (neigh == par) {
+                continue;
+            } else if (!vis[neigh]) {
+                dfs(graph, neigh, curr, dt, low, vis, time, ap);
+                low[curr] = Math.min(low[curr], low[neigh]);
+                if (par != -1 && dt[curr] <= low[neigh]) {
+                    // System.out.println("AP : " + curr);
+                    ap[curr] = true;
+                }
+                children++;
+            } else {
+                low[curr] = Math.min(low[curr], dt[neigh]);
+            }
+        }
+        if (par == -1 && children > 1) {
+            // System.out.println("AP : " + curr);
+            ap[curr] = true;
+        }
+    }
+
+    public static void tarjanArticulationPoint(ArrayList<Edge> graph[], int V) { // TC O(V+E)
+        int dt[] = new int[V];
+        int low[] = new int[V];
+        boolean vis[] = new boolean[V];
+        boolean ap[] = new boolean[V];
+        int time = 0;
+        for (int i = 0; i < V; i++) {
+            if (!vis[i]) {
+                dfs(graph, i, -1, dt, low, vis, time, ap);
+            }
+        }
+        for (int i = 0; i <= ap.length - 1; i++) {
+            if (ap[i]) {
+                System.out.println("AP : " + i);
+            }
+        }
+    }
+
     public static void main(String args[]) {
         int V = 5;
         @SuppressWarnings("unchecked")
         ArrayList<Edge> graph[] = new ArrayList[V];
         createGraph(graph);
-
+        tarjanArticulationPoint(graph, V);
     }
 }
